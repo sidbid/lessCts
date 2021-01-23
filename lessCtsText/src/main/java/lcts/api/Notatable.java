@@ -23,6 +23,6 @@ public interface Notatable {
 	 * @param s the string containing the instance variables
 	 * @throws ActionFormatException
 	 */
-	void unNotate (String s) throws ActionFormatException;
+	void unNotate (String s) throws ActionFormatException, NumberFormatException, NoSuchActionException;
 
 }
