@@ -45,6 +45,11 @@ public class MouseMove extends Action {
 		end = new Point2d(x2, y2);
 		this.duration = duration;
 	}
+	
+	@Override
+	public float getThreadSleepTime() {
+		return duration;
+	}
 
 	@Override
 	public String notate() {
@@ -52,9 +57,11 @@ public class MouseMove extends Action {
 	}
 
 	@Override
-	public void unNotate(String s) {
-		// TODO Auto-generated method stub
-
+	public void unNotate(String s) throws NumberFormatException {
+		String[] parts = Action.splitNotated(s);
+		this.start.unNotate(parts[0]);
+		this.end.unNotate(parts[1]);
+		this.duration = Float.parseFloat(parts[2]);
 	}
 
 	@Override

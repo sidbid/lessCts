@@ -38,6 +38,11 @@ public class KeyHold extends Action {
 		this.keycode = keycode;
 		this.duration = duration;
 	}
+	
+	@Override
+	public float getThreadSleepTime() {
+		return duration;
+	}
 
 	@Override
 	public String notate() {
@@ -45,9 +50,10 @@ public class KeyHold extends Action {
 	}
 
 	@Override
-	public void unNotate(String s) {
-		// TODO Auto-generated method stub
-
+	public void unNotate(String s) throws NumberFormatException {
+		String[] parts = Action.splitNotated(s);
+		this.keycode = Integer.parseInt(parts[0]);
+		this.duration = Float.parseFloat(parts[1]);
 	}
 
 	@Override
@@ -56,9 +62,10 @@ public class KeyHold extends Action {
 	}
 
 	@Override
-	public void feedToRobot(Robot r) {
-		// TODO Auto-generated method stub
-
+	public void feedToRobot(Robot r) throws InterruptedException {
+		r.keyPress(keycode);
+		Thread.sleep(Action.secsToMs(duration));
+		r.keyRelease(keycode);
 	}
 
 }

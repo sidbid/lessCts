@@ -4,12 +4,17 @@
 package lcts.actions;
 
 import java.awt.Robot;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import lcts.actions.Action.Variants;
 
 /**
- * @author SId
  * The action variant representing a left or right mouse click to a robot.
+ * @author SId
+ * 
  */
 public class MouseClick extends Action {
 	
@@ -41,9 +46,9 @@ public class MouseClick extends Action {
 	}
 
 	@Override
-	public void unNotate(String s) {
-		// TODO Auto-generated method stub
-
+	public void unNotate(String s) throws NumberFormatException {
+		String[] parts = Action.splitNotated(s);
+		this.left = Boolean.parseBoolean(parts[0]);
 	}
 
 	@Override
@@ -59,9 +64,15 @@ public class MouseClick extends Action {
 	}
 
 	@Override
-	public void feedToRobot(Robot r) {
-		// TODO Auto-generated method stub
-
+	public void feedToRobot(Robot r) throws InterruptedException {
+		int button = InputEvent.BUTTON1_DOWN_MASK;
+		if (!left) {
+			button = InputEvent.BUTTON2_DOWN_MASK;
+		}
+		
+		r.mousePress(button);
+		Thread.sleep(Action.secsToMs(Action.MIN_TIME));
+		r.mouseRelease(button);
 	}
 
 }

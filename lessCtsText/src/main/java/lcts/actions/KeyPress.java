@@ -4,6 +4,8 @@
 package lcts.actions;
 
 import java.awt.Robot;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import lcts.actions.Action.Variants;
 
@@ -41,9 +43,9 @@ public class KeyPress extends Action {
 	}
 
 	@Override
-	public void unNotate(String s) {
-		// TODO Auto-generated method stub
-
+	public void unNotate(String s) throws NumberFormatException {
+		String[] parts = Action.splitNotated(s);
+		this.keycode = Integer.parseInt(parts[0]);
 	}
 
 	@Override
@@ -52,9 +54,11 @@ public class KeyPress extends Action {
 	}
 
 	@Override
-	public void feedToRobot(Robot r) {
-		// TODO Auto-generated method stub
-
+	public void feedToRobot(Robot r) throws InterruptedException {
+		r.keyPress(keycode);
+		Thread.sleep(Action.secsToMs(Action.MIN_TIME));
+		r.keyRelease(keycode);
+		
 	}
 
 }

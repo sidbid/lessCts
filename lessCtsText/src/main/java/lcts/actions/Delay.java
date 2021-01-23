@@ -4,6 +4,8 @@
 package lcts.actions;
 
 import java.awt.Robot;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @author SId
@@ -11,7 +13,7 @@ import java.awt.Robot;
  */
 public class Delay extends Action {
 	
-	private float duration;
+	private float duration;	//in seconds
 	
 	public static final Variants VAR = Variants.DELAY;
 	public static final String V_TO_STRING = "de";
@@ -39,9 +41,9 @@ public class Delay extends Action {
 	}
 
 	@Override
-	public void unNotate(String s) {
-		// TODO Auto-generated method stub
-
+	public void unNotate(String s) throws NumberFormatException {
+		String[] parts = Action.splitNotated(s);
+		this.duration = Float.parseFloat(parts[0]);
 	}
 
 	@Override
@@ -50,8 +52,8 @@ public class Delay extends Action {
 	}
 
 	@Override
-	public void feedToRobot(Robot r) {
-		// TODO Auto-generated method stub
+	public void feedToRobot(Robot r) throws InterruptedException {
+		Thread.sleep((long) (1000 * duration));
 	}
 
 }

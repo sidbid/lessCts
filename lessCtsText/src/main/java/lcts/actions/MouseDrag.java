@@ -51,14 +51,22 @@ public class MouseDrag extends Action {
 	}
 
 	@Override
+	public float getThreadSleepTime() {
+		return duration;
+	}
+	
+	@Override
 	public String notate() {
 		return V_TO_STRING + Action.NEXT_PROPERTY + start.notate() + Action.NEXT_PROPERTY + end.notate() + Action.NEXT_PROPERTY + duration + Action.NEXT_PROPERTY + left + Action.NEXT_ACTION;
 	}
 
 	@Override
-	public void unNotate(String s) {
-		// TODO Auto-generated method stub
-
+	public void unNotate(String s) throws NumberFormatException {
+		String[] parts = Action.splitNotated(s);
+		this.start.unNotate(parts[0]);
+		this.end.unNotate(parts[1]);
+		this.duration = Float.parseFloat(parts[2]);
+		this.left = Boolean.parseBoolean(parts[3]);
 	}
 
 	@Override
@@ -67,7 +75,7 @@ public class MouseDrag extends Action {
 		if (!left) {
 			dir = "right";
 		}
-		return "A " + dir + "-click drag from " + start.describe() + " to the point " + end.describe() + " over a duration of " + duration + " seconds.";
+		return "A " + dir + "-click drag from " + start.describe() + " to " + end.describe() + " over a duration of " + duration + " seconds.";
 	}
 
 	@Override
