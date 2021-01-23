@@ -4,6 +4,7 @@
 package lcts.text_based;
 
 /**
+ * A class which allows macros to be copied, renamed, and deleted. 
  * @author SId
  *
  */
