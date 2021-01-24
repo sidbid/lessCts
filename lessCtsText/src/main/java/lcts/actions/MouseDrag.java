@@ -5,17 +5,17 @@ package lcts.actions;
 
 import java.awt.Robot;
 
-import lcts.api.Point2d;
+import lcts.api.MonitorPixel;
 
 /**
- * The action variant corresponding to the robot dragging the mouse pointer, with either the left or right button held
+ * The action variant corresponding to the robot dragging the mouse pointer, with either the left or right button held.
  * @author SId
  *
  */
 public class MouseDrag extends Action {
 	
-	private Point2d start;
-	private Point2d end;
+	private MonitorPixel start;
+	private MonitorPixel end;
 	private float duration;
 	private boolean left;
 	
@@ -27,8 +27,8 @@ public class MouseDrag extends Action {
 	 */
 	public MouseDrag () {
 		super(VAR);
-		start = new Point2d();
-		end = new Point2d();
+		start = new MonitorPixel();
+		end = new MonitorPixel();
 		duration = 0f;
 		left = true;
 	}
@@ -42,10 +42,10 @@ public class MouseDrag extends Action {
 	 * @param duration over how many seconds the drag will last
 	 * @param left whether the left or right button will be held down
 	 */
-	public MouseDrag (float x1, float y1, float x2, float y2, float duration, boolean left) {
+	public MouseDrag (int x1, int y1, int x2, int y2, float duration, boolean left) {
 		super(VAR);
-		start = new Point2d(x1, y1);
-		end = new Point2d(x2, y2);
+		start = new MonitorPixel(x1, y1);
+		end = new MonitorPixel(x2, y2);
 		this.duration = duration;
 		this.left = left;
 	}

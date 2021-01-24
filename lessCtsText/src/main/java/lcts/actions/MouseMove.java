@@ -5,8 +5,7 @@ package lcts.actions;
 
 import java.awt.Robot;
 
-import lcts.actions.Action.Variants;
-import lcts.api.Point2d;
+import lcts.api.MonitorPixel;
 
 /**
  * The action variant corresponding to the robot moving the mouse from one point to another.
@@ -14,8 +13,8 @@ import lcts.api.Point2d;
  */
 public class MouseMove extends Action {
 	
-	private Point2d start;
-	private Point2d end;
+	private MonitorPixel start;
+	private MonitorPixel end;
 	private float duration;
 	
 	public static final Variants VAR = Variants.MOUSE_MOVE;
@@ -26,8 +25,8 @@ public class MouseMove extends Action {
 	 */
 	public MouseMove () {
 		super(VAR);
-		start = new Point2d();
-		end = new Point2d();
+		start = new MonitorPixel();
+		end = new MonitorPixel();
 		duration = 0f;
 	}
 	
@@ -39,10 +38,10 @@ public class MouseMove extends Action {
 	 * @param y2 ending y position
 	 * @param duration the number of seconds over which the mouse will move
 	 */
-	public MouseMove (float x1, float y1, float x2, float y2, float duration) {
+	public MouseMove (int x1, int y1, int x2, int y2, float duration) {
 		super(VAR);
-		start = new Point2d(x1, y1);
-		end = new Point2d(x2, y2);
+		start = new MonitorPixel(x1, y1);
+		end = new MonitorPixel(x2, y2);
 		this.duration = duration;
 	}
 	
