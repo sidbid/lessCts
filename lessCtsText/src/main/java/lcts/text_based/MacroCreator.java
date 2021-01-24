@@ -14,6 +14,7 @@ import lcts.actions.KeyPress;
 import lcts.actions.Macro;
 import lcts.actions.MouseClick;
 import lcts.actions.MouseDrag;
+import lcts.actions.MouseHold;
 import lcts.actions.MouseMove;
 import lcts.api.FileConvenience;
 
@@ -37,16 +38,23 @@ public class MacroCreator {
 			fc = new FileConvenience(name);
 			if (fc.doesFileExist() == true) {
 				input.close();
-				throw new IOException("This file already exists, aborting. Delete with the macro manager if necessary.");
+				throw new IOException("This file already exists, aborting. Delete if necessary.");
 			}
 			
 			fc.makeFile();
-			Macro m = new Macro(name);
+			Macro m;
+			boolean indef = getYesNo(input, "Will the macro repeat until the program is ended(y/n)? " , "Only y/n/yes/no");
+			if (indef) {
+				m = new Macro(name, indef);
+			} else {
+				int num = getPositiveInt(input, "Number of times the macro repeats: ", "positive integers only");
+				m = new Macro(name, num);
+			}
 			
 			
 			int potential = 7;
 			do {
-				print("Create another action(1: delay, 2: key press, 3: key hold, 4: mouse click, 5: mouse move, 6: mouse drag) or finish(0): ");
+				print("Create another action(1: delay, 2: key press, 3: key hold, 4: mouse click, 5: mouse hold, 6: mouse move, 7: mouse drag) or finish(0): ");
 				if (input.hasNextInt()) {
 					potential = input.nextInt();
 					switch(potential) {
@@ -79,39 +87,59 @@ public class MacroCreator {
 								m.addAction(new KeyHold(num, dur));
 							}
 							
+							print("Key hold made.");
 							break;
 						case 4:
 							print("Creating a mouse click.");
-							m.addAction(new MouseClick(true));
-							print("Finished making the mouse click.");
+							
+							
+							{
+								boolean left = getYesNo(input, "Left click, right click otherwise(y/n)? ", "Only y/n/yes/no");
+								m.addAction(new MouseClick(left));
+							}
+							
+							print("Mouse click made.");
 							break;
 						case 5:
+							print("Creating a mouse hold.");
+							
+							
+							{
+								boolean left = getYesNo(input, "Left click, right click otherwise(y/n)? ", "Only y/n/yes/no");
+								float dur = getPositiveFloat(input, "Enter duration of the move, decimal ok: ", "Numbers only.");
+								m.addAction(new MouseHold(left, dur));
+							}
+							
+							print("Mouse hold made.");
+							break;
+						case 6:
 							print("Creating a mouse move. ");
 							
 							{
-								float x1 = getPositiveFloat(input, "Enter initial mouse x: ", "Only numbers.");
-								float y1 = getPositiveFloat(input, "Enter initial mouse y: ", "Only numbers.");
-								float x2 = getPositiveFloat(input, "Enter final mouse x: ", "Only numbers.");
-								float y2 = getPositiveFloat(input, "Enter final mouse y: ", "Only numbers.");
+								int x1 = getPositiveInt(input, "Enter initial mouse x: ", "Only positive integers.");
+								int y1 = getPositiveInt(input, "Enter initial mouse y: ", "Only positive integers.");
+								int x2 = getPositiveInt(input, "Enter final mouse x: ", "Only positive integers.");
+								int y2 = getPositiveInt(input, "Enter final mouse y: ", "Only positive integers.");
 								float dur = getPositiveFloat(input, "Enter duration of the move, decimal ok: ", "Numbers only.");
 								m.addAction(new MouseMove(x1, y1, x2, y2, dur));
 							}
 							
-							print("Made the mouse move.");
+							print("Mouse move made.");
 							break;
-						case 6:
+						case 7:
 							print("Creating a new mouse drag.");
 							
 							{
-								float x1 = getPositiveFloat(input, "Enter initial mouse x: ", "Only numbers.");
-								float y1 = getPositiveFloat(input, "Enter initial mouse y: ", "Only numbers.");
-								float x2 = getPositiveFloat(input, "Enter final mouse x: ", "Only numbers.");
-								float y2 = getPositiveFloat(input, "Enter final mouse y: ", "Only numbers.");
+								int x1 = getPositiveInt(input, "Enter initial mouse x: ", "Only positive integers.");
+								int y1 = getPositiveInt(input, "Enter initial mouse y: ", "Only positive integers.");
+								int x2 = getPositiveInt(input, "Enter final mouse x: ", "Only positive integers.");
+								int y2 = getPositiveInt(input, "Enter final mouse y: ", "Only positive integers.");
 								float dur = getPositiveFloat(input, "Enter duration of the move, decimal ok: ", "Numbers only.");
-								m.addAction(new MouseDrag(x1, y1, x2, y2, dur, true));
+								boolean left = getYesNo(input, "Left click, right click otherwise(y/n)? ", "Only y/n/yes/no");
+								m.addAction(new MouseDrag(x1, y1, x2, y2, dur, left));
 							}
 							
-							print("Created the mouse drag.");
+							print("Mouse drag made.");
 							break;
 						default:
 							if (potential != 0) {
@@ -172,8 +200,21 @@ public class MacroCreator {
 	}
 	
 	public static boolean getYesNo (Scanner scan, String message, String badInput) {
-		return false;
-		//TODO
+		boolean rv = false;
+		print(message);
+		
+		while (true) {
+			String ans = scan.nextLine().trim();
+			if (ans.equalsIgnoreCase("y") || ans.equalsIgnoreCase("yes")) {
+				rv = true;
+				break;
+			} else if (ans.equalsIgnoreCase("n") || ans.equalsIgnoreCase("no")) {
+				break;
+			} else {
+				print(badInput);
+			}
+		}
+		return rv;
 	}
 
 }
