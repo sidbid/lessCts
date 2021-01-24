@@ -4,6 +4,7 @@
 package lcts.actions;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import lcts.api.FileConvenience;
 
@@ -15,8 +16,9 @@ public class UnNotationTest {
 
 	/**
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		try {
 			testTwo();
 		} catch (FileNotFoundException e) {
@@ -45,7 +47,7 @@ public class UnNotationTest {
 		print(m.notate());
 	}
 	
-	public static void testTwo () throws FileNotFoundException {
+	public static void testTwo () throws IOException {
 		Macro m = new Macro("TestMacro2");
 		
 		Delay d = new Delay(4.2f);

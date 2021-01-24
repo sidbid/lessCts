@@ -85,16 +85,18 @@ public class MacroRunner {
 			
 			do {
 				for (int i = 0; i < m.getNumTimes(); i++) {
-					Action a = actionsCopy.get(i);
-					new Thread(new RobotThread(a)).start();
-					Thread.sleep(Action.secsToMs(a.getThreadSleepTime()));
+					for (int j = 0; j < actionsCopy.size(); j++) {
+						Action a = actionsCopy.get(j);
+						new Thread(new RobotThread(a)).start();
+						Thread.sleep(Action.secsToMs(a.getThreadSleepTime()));
+					}
 				}
 			}
 			while (m.getIndRepeats());
 			
 		} catch (IOException e) {
 			input.close();
-			print(e.getMessage());
+			e.printStackTrace();
 		} catch (ActionFormatException e) {
 			input.close();
 			print(e.getMessage());
@@ -103,7 +105,7 @@ public class MacroRunner {
 			print(e.getMessage());
 		} catch (NumberFormatException e) {
 			input.close();
-			print(e.getMessage());
+			e.printStackTrace();
 		} catch (AWTException e) {
 			input.close();
 			print("There was an error making robots, aborting.");

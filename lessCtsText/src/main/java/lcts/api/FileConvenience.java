@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 /**
@@ -23,7 +25,12 @@ public class FileConvenience {
 	private boolean fileExists = true;
 	//private Scanner scan;
 	
-	public static final String LOCATION = "src/main/res/write/";
+	// for testing
+	// public static final String LOCATION = "src/main/res/write/";
+	public static final String LOCATION = System.getProperty("user.dir");
+	public static final String SEP = System.getProperty("file.separator");
+	public static final String DIR = "macros";
+	public static final String FULL_LOC = LOCATION + SEP + DIR + SEP;
 	public static final String EXTENSION = ".txt";
 	
 	/**
@@ -31,9 +38,10 @@ public class FileConvenience {
 	 * @param fileName the name of the file that all operations will relate to
 	 * @throws IOException 
 	 */
-	public FileConvenience (String fileName) {
+	public FileConvenience (String fileName) throws IOException {
 		this.fileName = fileName;
-		file = new File(LOCATION + fileName + EXTENSION);
+		Files.createDirectories(Paths.get(FULL_LOC));
+		file = new File(FULL_LOC + fileName + EXTENSION);
 		
 		if (!file.exists()) {
 			fileExists = false;

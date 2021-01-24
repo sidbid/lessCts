@@ -157,9 +157,9 @@ public class MacroCreator {
 			fc.storeString(m.notate());
 			print("All done, the macro can now be run.");
 		} catch (FileNotFoundException e) {
-			print(e.getMessage());
+			e.printStackTrace();
 		} catch (IOException e) {
-			print(e.getMessage());
+			e.printStackTrace();
 		}
 		
 		input.close();
