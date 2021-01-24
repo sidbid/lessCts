@@ -10,10 +10,11 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
- * @author SId
  * Provides read, write, and file creation methods for a single file, corresponding to the file name provided.
- * 
  * <p>Files are stored in the TODO directory, where users can access them through other means as well.
+ * @author SId
+ * @see java.io.File
+ * 
  */
 public class FileConvenience {
 	
@@ -58,7 +59,7 @@ public class FileConvenience {
 	/**
 	 * Stores a string in the file, by using a PrintWriter object.
 	 * @param s the string to be written
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException if the file does not exist(should not happen unless this is called early)
 	 */
 	public void storeString (String s) throws FileNotFoundException {
 		PrintWriter p = new PrintWriter(file);

@@ -61,6 +61,35 @@ public class MonitorPixel extends Point2d {
 	}
 	
 	/**
+	 * Overloading Point2d's static getDistTo method that returns a point, to instead deal only with monitor pixels
+	 * , and thus only positive integers.
+	 * @param a the first monitor pixel
+	 * @param b the second monitor pixel
+	 * @param asMonitorPixel to make this different from the other static getDistTo method
+	 * @return a monitorPixel object representing the difference in x's and y's between the two pixels
+	 */
+	public static MonitorPixel getDistTo (MonitorPixel a, MonitorPixel b, boolean asMonitorPixel) {
+		MonitorPixel rv = new MonitorPixel();
+		rv.setX((int) b.getX() - (int) a.getX());
+		rv.setY((int) b.getY() - (int) a.getY());
+		return rv;
+	}
+	
+	/**
+	 * Overloading Point2d's static getPartialDist method, to instead deal with monitor pixels.
+	 * @param a the first monitor pixel
+	 * @param b the second monitor pixel
+	 * @param numParts the scalar quantity that the vector will get divided by
+	 * @return a monitor pixel representing the scaled vector between the other two pixels
+	 */
+	public static MonitorPixel getPartialDist (MonitorPixel a, MonitorPixel b, int numParts) {
+		MonitorPixel rv = getDistTo(a, b, true);
+		rv.setX((int) (rv.getX() / numParts));
+		rv.setY((int) (rv.getY() / numParts));
+		return rv;
+	}
+	
+	/**
 	 * Point2d's clamp method, just for integers.
 	 * @param a the value to clamp
 	 * @param max the value a cannot be greater than

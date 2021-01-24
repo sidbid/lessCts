@@ -5,6 +5,7 @@ package lcts.api;
 
 /**
  * Representation of a two dimensional point, that has an x coordinate and a y coordinate, which signify distance from the origin.
+ * <p>This class also has the use of representing a two dimensional vector, seen in a couple of its methods.
  * @author SId
  */
 public class Point2d implements Notatable, Describable {
@@ -84,6 +85,35 @@ public class Point2d implements Notatable, Describable {
 	 */
 	public static float getDistTo (Point2d a, Point2d b) {
 		return (float) (Math.pow((Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2)), 0.5));
+	}
+	
+	/**
+	 * Represents the distance between two points as a vector quantity, as in the difference between their x's and y's.
+	 * @param a the first point
+	 * @param b the second point
+	 * @param asPoint used to overload between this and the other getDistTo that returns a float
+	 * @return the difference between the two points, as a point
+	 */
+	public static Point2d getDistTo(Point2d a, Point2d b, boolean asPoint) {
+		Point2d rv = new Point2d();
+		rv.setX(b.getX() - a.getX());
+		rv.setY(b.getY() - a.getY());
+		return rv;
+	}
+	
+	/**
+	 * Takes the point vector, and divides its x and y by a value to get a part of the difference(multiplying 
+	 * the vector by a scalar quantity less than one).
+	 * @param a the first point
+	 * @param b the second point
+	 * @param numParts the value to divide the x's and y's by
+	 * @return the scaled vector quantity
+	 */
+	public static Point2d getPartialDist (Point2d a, Point2d b, float numParts) {
+		Point2d rv = getDistTo(a, b, true);
+		rv.setX(rv.getX() / numParts);
+		rv.setY(rv.getY() / numParts);
+		return rv;
 	}
 	
 	/**
