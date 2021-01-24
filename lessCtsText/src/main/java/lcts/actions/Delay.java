@@ -34,6 +34,11 @@ public class Delay extends Action {
 		super(VAR);
 		this.duration = duration;
 	}
+	
+	@Override
+	public float getThreadSleepTime() {
+		return duration;
+	}
 
 	@Override
 	public String notate() {

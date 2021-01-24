@@ -69,9 +69,16 @@ public class MouseMove extends Action {
 	}
 
 	@Override
-	public void feedToRobot(Robot r) {
-		// TODO Auto-generated method stub
-
+	public void feedToRobot(Robot r) throws InterruptedException {
+		MonitorPixel vector = MonitorPixel.getPartialDist(start, end, (int) (duration * Action.TIMES_RENDERED_PS));
+		int currX = (int) (start.getX()); 
+		int currY = (int) (start.getY());
+		for (float i = 0; i < duration * Action.TIMES_RENDERED_PS; i++) {
+			r.mouseMove(currX, currY);
+			currX += (int) (vector.getX());
+			currY += (int) (vector.getY());
+			Thread.sleep(Action.secsToMs(Action.RENDER_TIME));
+		}
 	}
 
 }

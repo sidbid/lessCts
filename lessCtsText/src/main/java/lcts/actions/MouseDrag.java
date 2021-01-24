@@ -4,6 +4,7 @@
 package lcts.actions;
 
 import java.awt.Robot;
+import java.awt.event.InputEvent;
 
 import lcts.api.MonitorPixel;
 
@@ -79,8 +80,25 @@ public class MouseDrag extends Action {
 	}
 
 	@Override
-	public void feedToRobot(Robot r) {
-		// TODO Auto-generated method stub
+	public void feedToRobot(Robot r) throws InterruptedException {
+		int button = InputEvent.BUTTON1_DOWN_MASK;
+		if (!left) {
+			button = InputEvent.BUTTON2_DOWN_MASK;
+		}
+		
+		MonitorPixel vector = MonitorPixel.getPartialDist(start, end, (int) (duration * TIMES_RENDERED_PS));
+		int currX = (int) (start.getX()); 
+		int currY = (int) (start.getY());
+		for (float i = 0; i < duration * Action.TIMES_RENDERED_PS; i++) {
+			r.mousePress(button);
+			r.mouseMove(currX, currY);
+			//System.out.println("x: " + currX + "y: " + currY);
+			currX += (int) (vector.getX());
+			currY += (int) (vector.getY());
+			Thread.sleep(Action.secsToMs(Action.RENDER_TIME));
+		}
+		
+		r.mouseRelease(button);
 
 	}
 

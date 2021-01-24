@@ -5,8 +5,6 @@ package lcts.actions;
 
 import java.awt.Robot;
 import java.util.Arrays;
-import java.util.Timer;
-
 import lcts.api.Describable;
 import lcts.api.NoSuchActionException;
 import lcts.api.Notatable;
@@ -39,7 +37,22 @@ public abstract class Action implements Notatable, Describable {
 	public static final String NEXT_PROPERTY = "\t";
 	public static final String NEXT_ACTION = "\n";
 	public static final int SEC_TO_MS = 1000;
+	/**
+	 * The minimum amount of time that an action must run for. It is needed so that some actions, like clicking the mouse, are realistic
+	 * and not instantaneous.
+	 */
 	public static final float MIN_TIME = 0.01f;
+	/**
+	 * The number of times per second that a held down or continuous action should be performed. 
+	 * <p>Called times rendered per second because it effectively renders the actions at 60 fps.
+	 */
+	public static final float TIMES_RENDERED_PS = 60f;
+	/**
+	 * Used for actions that last for a certain duration. The thread will sleep for this amount of time, in seconds, 
+	 * in between acting to simulate that an action is continuous.
+	 * <p> It is called render time because of its value(1/60), meaning that actions with it would effectively render at 60 fps.
+	 */
+	public static final float RENDER_TIME = 1f / TIMES_RENDERED_PS;
 	
 	/**
 	 * Constructs a new action, with a defined type. Each subclass knows what variant it is, and will pass it in using super.

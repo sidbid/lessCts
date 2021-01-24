@@ -63,8 +63,10 @@ public class KeyHold extends Action {
 
 	@Override
 	public void feedToRobot(Robot r) throws InterruptedException {
-		r.keyPress(keycode);
-		Thread.sleep(Action.secsToMs(duration));
+		for (float i = 0; i < duration * Action.TIMES_RENDERED_PS; i++) {
+			r.keyPress(keycode);
+			Thread.sleep(Action.secsToMs(Action.RENDER_TIME));
+		}
 		r.keyRelease(keycode);
 	}
 
